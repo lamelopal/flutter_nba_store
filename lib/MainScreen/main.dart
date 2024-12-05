@@ -1,10 +1,16 @@
 import 'package:e_commerce_project/DiscoverScreen/discover_screen.dart';
 import 'package:e_commerce_project/HomeScreen/home_screen.dart';
+import 'package:e_commerce_project/LoginScreen/page/login_screen.dart';
 import 'package:e_commerce_project/NotificationScreen/notification_screen.dart';
 import 'package:e_commerce_project/ProfileScreen/profile_screen.dart';
+import 'package:e_commerce_project/SplashScreen/splash_screen.dart';
 import 'package:e_commerce_project/WishlistScreen/wishlist_screen.dart';
+import 'package:e_commerce_project/data/datasource/data_remote_resource.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../LoginScreen/bloc/login/login_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,16 +21,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'E-Commerce App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xff2C2C2C),
+    return BlocProvider(
+      create: (context) => LoginBloc(AuthRemoteDatasource()),
+      child: MaterialApp(
+        title: 'E-Commerce App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xff2C2C2C),
+          ),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
+        home: const SplashScreenPage(),
       ),
-      home: const MainPage(),
     );
   }
 }
@@ -58,7 +67,7 @@ class _MainPageState extends State<MainPage> {
           child: Icon(
             icon,
             color:
-                currentIndex == index ? Colors.white : const Color(0xff171714),
+            currentIndex == index ? Colors.white : const Color(0xff171714),
           ),
         ),
       ),
